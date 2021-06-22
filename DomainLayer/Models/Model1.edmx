@@ -1,0 +1,416 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="JooleDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__RefactorLog">
+          <Key>
+            <PropertyRef Name="OperationKey" />
+          </Key>
+          <Property Name="OperationKey" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblManufacturer">
+          <Key>
+            <PropertyRef Name="ManufacturerID" />
+          </Key>
+          <Property Name="ManufacturerID" Type="int" Nullable="false" />
+          <Property Name="ManufacturerName" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblProduct">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="ManufacturerID" Type="int" Nullable="false" />
+          <Property Name="SubCategoryID" Type="int" Nullable="false" />
+          <Property Name="ProductName" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductImage" Type="nchar" MaxLength="500" Nullable="false" />
+          <Property Name="Series" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="Model" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="ModelYear" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblProperty">
+          <Key>
+            <PropertyRef Name="PropertyID" />
+          </Key>
+          <Property Name="PropertyID" Type="int" Nullable="false" />
+          <Property Name="PropertyName" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="IsType" Type="bit" Nullable="false" />
+          <Property Name="IsTechSpec" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'JooleDatabase.dbo.tblPropertyValue' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tblPropertyValue">
+          <Key>
+            <PropertyRef Name="PropertyID" />
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="PropertyID" Type="int" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="value" Type="nchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="tblSubCategory">
+          <Key>
+            <PropertyRef Name="SubCategoryID" />
+          </Key>
+          <Property Name="SubCategoryID" Type="int" Nullable="false" />
+          <Property Name="CategoryName" Type="nchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="tblTechSpecFilter">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblTypeFilter">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="UserEmail" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserImage" Type="nchar" MaxLength="50" />
+          <Property Name="UserPassword" Type="nchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_dbo_tblManufacturer_tblManufacturer_ManufacturerID">
+          <End Role="tblManufacturer" Type="Self.tblManufacturer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblProduct" Type="Self.tblProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblManufacturer">
+              <PropertyRef Name="ManufacturerID" />
+            </Principal>
+            <Dependent Role="tblProduct">
+              <PropertyRef Name="ManufacturerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_tblManufacturer_tblSubCategory_SubCategoryID">
+          <End Role="tblSubCategory" Type="Self.tblSubCategory" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblProduct" Type="Self.tblProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSubCategory">
+              <PropertyRef Name="SubCategoryID" />
+            </Principal>
+            <Dependent Role="tblProduct">
+              <PropertyRef Name="SubCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_tblManufacturer_User_UserID">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblManufacturer" Type="Self.tblManufacturer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tblManufacturer">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="JooleDatabaseModelStoreContainer">
+          <EntitySet Name="__RefactorLog" EntityType="Self.__RefactorLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblManufacturer" EntityType="Self.tblManufacturer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblProduct" EntityType="Self.tblProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblProperty" EntityType="Self.tblProperty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSubCategory" EntityType="Self.tblSubCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTechSpecFilter" EntityType="Self.tblTechSpecFilter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTypeFilter" EntityType="Self.tblTypeFilter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPropertyValue" EntityType="Self.tblPropertyValue" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tblPropertyValue].[PropertyID] AS [PropertyID], 
+    [tblPropertyValue].[ProductID] AS [ProductID], 
+    [tblPropertyValue].[value] AS [value]
+    FROM [dbo].[tblPropertyValue] AS [tblPropertyValue]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_dbo_tblManufacturer_tblManufacturer_ManufacturerID" Association="Self.FK_dbo_tblManufacturer_tblManufacturer_ManufacturerID">
+            <End Role="tblManufacturer" EntitySet="tblManufacturer" />
+            <End Role="tblProduct" EntitySet="tblProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_tblManufacturer_tblSubCategory_SubCategoryID" Association="Self.FK_dbo_tblManufacturer_tblSubCategory_SubCategoryID">
+            <End Role="tblSubCategory" EntitySet="tblSubCategory" />
+            <End Role="tblProduct" EntitySet="tblProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_tblManufacturer_User_UserID" Association="Self.FK_dbo_tblManufacturer_User_UserID">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblManufacturer" EntitySet="tblManufacturer" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="JooleDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__RefactorLog">
+          <Key>
+            <PropertyRef Name="OperationKey" />
+          </Key>
+          <Property Name="OperationKey" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblManufacturer">
+          <Key>
+            <PropertyRef Name="ManufacturerID" />
+          </Key>
+          <Property Name="ManufacturerID" Type="Int32" Nullable="false" />
+          <Property Name="ManufacturerName" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tblProducts" Relationship="Self.FK_dbo_tblManufacturer_tblManufacturer_ManufacturerID" FromRole="tblManufacturer" ToRole="tblProduct" />
+          <NavigationProperty Name="tblUser" Relationship="Self.FK_dbo_tblManufacturer_User_UserID" FromRole="tblManufacturer" ToRole="tblUser" />
+        </EntityType>
+        <EntityType Name="tblProduct">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="ManufacturerID" Type="Int32" Nullable="false" />
+          <Property Name="SubCategoryID" Type="Int32" Nullable="false" />
+          <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="ProductImage" Type="String" MaxLength="500" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Series" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="ModelYear" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tblManufacturer" Relationship="Self.FK_dbo_tblManufacturer_tblManufacturer_ManufacturerID" FromRole="tblProduct" ToRole="tblManufacturer" />
+          <NavigationProperty Name="tblSubCategory" Relationship="Self.FK_dbo_tblManufacturer_tblSubCategory_SubCategoryID" FromRole="tblProduct" ToRole="tblSubCategory" />
+        </EntityType>
+        <EntityType Name="tblProperty">
+          <Key>
+            <PropertyRef Name="PropertyID" />
+          </Key>
+          <Property Name="PropertyID" Type="Int32" Nullable="false" />
+          <Property Name="PropertyName" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="IsType" Type="Boolean" Nullable="false" />
+          <Property Name="IsTechSpec" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblSubCategory">
+          <Key>
+            <PropertyRef Name="SubCategoryID" />
+          </Key>
+          <Property Name="SubCategoryID" Type="Int32" Nullable="false" />
+          <Property Name="CategoryName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="tblProducts" Relationship="Self.FK_dbo_tblManufacturer_tblSubCategory_SubCategoryID" FromRole="tblSubCategory" ToRole="tblProduct" />
+        </EntityType>
+        <EntityType Name="tblTechSpecFilter">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblTypeFilter">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="UserEmail" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="UserImage" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="UserPassword" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tblManufacturers" Relationship="Self.FK_dbo_tblManufacturer_User_UserID" FromRole="tblUser" ToRole="tblManufacturer" />
+        </EntityType>
+        <EntityType Name="tblPropertyValue">
+          <Key>
+            <PropertyRef Name="PropertyID" />
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="PropertyID" Type="Int32" Nullable="false" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="value" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_dbo_tblManufacturer_tblManufacturer_ManufacturerID">
+          <End Role="tblManufacturer" Type="Self.tblManufacturer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblProduct" Type="Self.tblProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblManufacturer">
+              <PropertyRef Name="ManufacturerID" />
+            </Principal>
+            <Dependent Role="tblProduct">
+              <PropertyRef Name="ManufacturerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_tblManufacturer_User_UserID">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblManufacturer" Type="Self.tblManufacturer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tblManufacturer">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_tblManufacturer_tblSubCategory_SubCategoryID">
+          <End Role="tblSubCategory" Type="Self.tblSubCategory" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblProduct" Type="Self.tblProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSubCategory">
+              <PropertyRef Name="SubCategoryID" />
+            </Principal>
+            <Dependent Role="tblProduct">
+              <PropertyRef Name="SubCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="JooleDatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__RefactorLog" EntityType="Self.C__RefactorLog" />
+          <EntitySet Name="tblManufacturers" EntityType="Self.tblManufacturer" />
+          <EntitySet Name="tblProducts" EntityType="Self.tblProduct" />
+          <EntitySet Name="tblProperties" EntityType="Self.tblProperty" />
+          <EntitySet Name="tblSubCategories" EntityType="Self.tblSubCategory" />
+          <EntitySet Name="tblTechSpecFilters" EntityType="Self.tblTechSpecFilter" />
+          <EntitySet Name="tblTypeFilters" EntityType="Self.tblTypeFilter" />
+          <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
+          <EntitySet Name="tblPropertyValues" EntityType="Self.tblPropertyValue" />
+          <AssociationSet Name="FK_dbo_tblManufacturer_tblManufacturer_ManufacturerID" Association="Self.FK_dbo_tblManufacturer_tblManufacturer_ManufacturerID">
+            <End Role="tblManufacturer" EntitySet="tblManufacturers" />
+            <End Role="tblProduct" EntitySet="tblProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_tblManufacturer_User_UserID" Association="Self.FK_dbo_tblManufacturer_User_UserID">
+            <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblManufacturer" EntitySet="tblManufacturers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_tblManufacturer_tblSubCategory_SubCategoryID" Association="Self.FK_dbo_tblManufacturer_tblSubCategory_SubCategoryID">
+            <End Role="tblSubCategory" EntitySet="tblSubCategories" />
+            <End Role="tblProduct" EntitySet="tblProducts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="JooleDatabaseModelStoreContainer" CdmEntityContainer="JooleDatabaseEntities">
+          <EntitySetMapping Name="C__RefactorLog">
+            <EntityTypeMapping TypeName="JooleDatabaseModel.C__RefactorLog">
+              <MappingFragment StoreEntitySet="__RefactorLog">
+                <ScalarProperty Name="OperationKey" ColumnName="OperationKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblManufacturers">
+            <EntityTypeMapping TypeName="JooleDatabaseModel.tblManufacturer">
+              <MappingFragment StoreEntitySet="tblManufacturer">
+                <ScalarProperty Name="ManufacturerID" ColumnName="ManufacturerID" />
+                <ScalarProperty Name="ManufacturerName" ColumnName="ManufacturerName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProducts">
+            <EntityTypeMapping TypeName="JooleDatabaseModel.tblProduct">
+              <MappingFragment StoreEntitySet="tblProduct">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ManufacturerID" ColumnName="ManufacturerID" />
+                <ScalarProperty Name="SubCategoryID" ColumnName="SubCategoryID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductImage" ColumnName="ProductImage" />
+                <ScalarProperty Name="Series" ColumnName="Series" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ModelYear" ColumnName="ModelYear" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProperties">
+            <EntityTypeMapping TypeName="JooleDatabaseModel.tblProperty">
+              <MappingFragment StoreEntitySet="tblProperty">
+                <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
+                <ScalarProperty Name="PropertyName" ColumnName="PropertyName" />
+                <ScalarProperty Name="IsType" ColumnName="IsType" />
+                <ScalarProperty Name="IsTechSpec" ColumnName="IsTechSpec" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSubCategories">
+            <EntityTypeMapping TypeName="JooleDatabaseModel.tblSubCategory">
+              <MappingFragment StoreEntitySet="tblSubCategory">
+                <ScalarProperty Name="SubCategoryID" ColumnName="SubCategoryID" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTechSpecFilters">
+            <EntityTypeMapping TypeName="JooleDatabaseModel.tblTechSpecFilter">
+              <MappingFragment StoreEntitySet="tblTechSpecFilter">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTypeFilters">
+            <EntityTypeMapping TypeName="JooleDatabaseModel.tblTypeFilter">
+              <MappingFragment StoreEntitySet="tblTypeFilter">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUsers">
+            <EntityTypeMapping TypeName="JooleDatabaseModel.tblUser">
+              <MappingFragment StoreEntitySet="tblUser">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="UserImage" ColumnName="UserImage" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPropertyValues">
+            <EntityTypeMapping TypeName="JooleDatabaseModel.tblPropertyValue">
+              <MappingFragment StoreEntitySet="tblPropertyValue">
+                <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="value" ColumnName="value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

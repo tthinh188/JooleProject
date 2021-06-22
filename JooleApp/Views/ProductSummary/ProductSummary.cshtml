@@ -1,0 +1,289 @@
+﻿
+@model JooleApp.ViewModel.ProductFilter
+
+@{
+    ViewBag.Title = "ProductSummary";
+    Layout = "~/Views/Shared/_ProductLayout.cshtml";
+}
+<link href="~/Content/CSS/ProductSummary.css" rel="stylesheet" />
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
+
+
+<div class="row" id="allElements">
+    <div class="col-xs-2 filterSection" style="width: 320px; float: left;" id="allFilters">
+        @using (Html.BeginForm("GetSearchingData", "ProductSummary", FormMethod.Post))
+        {
+
+            <div class="row bottomBorder searchSection">
+
+                <label id="searchLabel">Search:</label>
+
+
+                <input type="submit" value="Save" id="saveButton" />
+                <input type="button" value="Clear" id="clearButton" onclick="location.href='@Url.Action("ClearFilters", "ProductSummary", Model)'" />
+
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6 productSection">
+                    <label>Product</label>
+                </div>
+
+                <div class="col-xs-6 projectSection">
+                    <label>Project</label>
+                </div>
+            </div>
+
+
+            @*A dropdown list of typename: typevalue for a specific SubCategoryID*@
+            <div class="row bottomBorder">
+                <div style="text-align:center; margin-top:5px; margin-bottom: 5px;">
+                    <label>Product Type</label>
+                    @*a hidden input combined with the javascript below -> pass the value from view to controller using FormCollection*@
+                    @*<input type="hidden" id="hidden1" name="hidden1" value="" />*@
+                    <select id="dropdowntypes" name="productType">
+                        <option></option>
+                        @{
+                            foreach (var type in Model.typeFilter)
+                            {
+                                <option value="@type">@type</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="row bottomBorder modelYearSection">
+
+                <label id="modelYearLabel">Model Year:</label>
+
+                @Html.TextBoxFor(m => m.modelYear1, new { @class = "modelYearField", @id = "modelYearField1" })
+
+                <label>—</label>
+
+                @Html.TextBoxFor(m => m.modelYear2, new { @class = "modelYearField", @id = "modelYearField2" })
+
+            </div>
+
+            <div class="row bottomBorder filter_option">
+                <label>Technical Specifications</label>
+                <i class="fas fa-angle-down"></i>
+            </div>
+
+            <div class="tech_filterInput tech_hidden">
+
+                @{
+                    foreach (var techSpec in Model.techSpecs)
+                    {
+                        string divName = "techSpec" + techSpec.propertyID;
+                        string sliderNameMin = techSpec.propertyID + "min";
+                        string sliderNameMax = techSpec.propertyID + "max";
+                        <div class="row">
+                            <p class="tech_propertyLabel"><i class="fas fa-sort-alt"></i> <span class="tech_property">@techSpec.name</span></p>
+                            <input type="hidden" name="@techSpec.name" value="@techSpec.name" />
+
+                            <div id="@divName" class="sliderDiv">
+                                <input type="text" class="sliderValue leftslider" data-index="0" name="@sliderNameMin" value="@techSpec.min" />
+                                <div class="slider"></div>
+                                <input type="text" class="sliderValue rightslider" data-index="1" name="@sliderNameMax" value="@techSpec.max" style="margin-left:5px;" />
+                            </div>
+
+
+
+                        </div>
+                    }
+                }
+
+            </div>
+
+
+
+        }
+    </div>
+
+    
+    <div class="col-xs-7" id="displayProducts">
+
+
+        <p style="margin-left:10px;">@ViewBag.CategoryChosen > @ViewBag.SubCategoryChosen</p>
+
+
+        <button id="compare-btn" class="btn-primary" style="margin-left:10px;">COMPARE</button>
+
+
+        <div id="abc">
+            @{
+                foreach (var item in Model.products)
+                {
+                    int productID = item.ProductID;
+                    <div class="product-container">
+                        <img class="product_img" style="max-width:150px; height: 200px;" alt="product" src="~/Images/@(item.ProductImage.Trim()) " /><br />
+                        <label>@item.tblManufacturer.ManufacturerName</label><br />
+                        <label>@item.Series </label><br />
+                        <label>@item.Model</label><br />
+                        <div style="margin-top: 15px;">
+                            <label>Compare:</label>
+                            <input type="checkbox" class="product-checkbox" value=@item.ProductID>
+                        </div>
+                        <button type="button" value="@item.ProductID" class="detailsButton" onclick="location.href='@Url.Action("SeeDetails", "ProductSummary", new { productID = @item.ProductID})'">See Details</button>
+
+                    </div>
+                }
+            }
+        </div>
+
+
+    </div>
+    
+
+</div>
+
+<script>
+    let checkboxes = document.getElementsByClassName("product-checkbox");
+    let productIDs = [];
+    let compareBTN = document.getElementById("compare-btn");
+    compareBTN.disabled = true;
+
+    for (let i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].addEventListener('change', () => {
+            let index = productIDs.indexOf(parseInt(checkboxes[i].value))
+            if (index == -1) {
+                productIDs.push(parseInt(checkboxes[i].value))
+            }
+            else {
+                productIDs.splice(index,1)
+            }
+            if (productIDs.length === 3) {
+                for (let j = 0; j < checkboxes.length; j++) {
+                    if (!checkboxes[j].checked) {
+                        checkboxes[j].disabled = true;
+                    }
+                }
+            }
+            else {
+                for (let j = 0; j < checkboxes.length; j++) {
+                        checkboxes[j].disabled = false;
+                    }
+            }
+            if (productIDs.length > 0) {
+                compareBTN.disabled = false;
+            }
+            else {
+                compareBTN.disabled = true;
+            }
+        })
+    }
+
+
+
+    $('#compare-btn').on('click', () => {
+        console.log(productIDs)
+        $.post("@Url.Action("Compare","Product")", {
+            productIDs: productIDs
+        },
+            function (page, status) {
+                let w = window.open();
+                w.document.open();
+                w.document.write(page);
+                w.document.close();
+            }
+        )
+    })
+
+    var hidden = true;
+    $('.tech_filterInput').hide();
+    $(".filter_option").click(() => {
+        if (hidden)
+            $(".tech_filterInput").show('fast');
+        else {
+            $('.tech_filterInput').hide('fast');
+        }
+        hidden = !hidden;
+    })
+
+</script>
+
+
+@{
+    foreach (var techSpec in Model.techSpecs){
+    <script>
+        $(document).ready(function () {
+            var propertyID = "@Html.Raw(@techSpec.propertyID)";
+            var minimum = @Html.Raw(@techSpec.min);
+            var maximum = @Html.Raw(@techSpec.max);
+            $(function () {
+                console.log(maximum);
+                $("#techSpec" + propertyID + " .slider").slider({
+                    min: minimum,
+                    max: maximum,
+                    step: 1,
+                    values: [minimum, maximum],
+                    slide: function (event, ui) {
+                        if (ui.values[0] >= ui.values[1]) {
+                            return false;
+                        } else {
+                            for (var i = 0; i < ui.values.length; ++i) {
+                                $("#techSpec" + propertyID + " input.sliderValue[data-index=" + i + "]").val(ui.values[i]);
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    }
+}
+
+
+
+@*<script>
+        $(document).ready(function () {
+            $("#dropdowntypes").change(function () {
+                var ddtext = $("#dropdowntypes option:selected").text();
+                $("#hidden1").val(ddtext);
+            })
+        })
+
+    </script>*@
+
+
+
+
+@*
+
+    <script>
+        $(document).ready(function () {
+            $("#saveButton").click(() => {
+                searchProducts();
+            });
+        });
+
+
+        function searchProducts() {
+            var SetData = $("#abc");
+            var SearchValueMY1_pass = $("#modelYearField1").val() ? $("#modelYearField1").val() : "NoData";
+            var SearchValueMY2_pass = $("#modelYearField2").val() ? $("#modelYearField2").val() : "NoData";
+            SetData.html("");
+            $.ajax({
+                url: "@Url.Action("GetSearchingData", "ProductSummary")",
+                datatype: "html",
+                method: "GET",
+                data: {
+                    SearchValueMY1: SearchValueMY1_pass,
+                    SearchValueMY2: SearchValueMY2_pass
+                },
+                success: function (res) {
+                    SetData.html(res);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+    </script>
+
+*@

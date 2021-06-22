@@ -1,0 +1,163 @@
+﻿
+
+@model DomainLayer.tblUser
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LoginSearchLayout.cshtml";
+}
+
+
+
+
+@using (Html.BeginForm("Login", "Login", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" style="width:500px;display:inline-block;">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <input id="UserName" name="UserName" type="hidden" value="Your Username" />
+        <input id="UserConfirmPassword" name="UserConfirmPassword" type="hidden" />
+
+        <div id="useremail" class="form-group">
+            <div style="text-align:center">
+                @Html.EditorFor(model => model.UserEmail, new { htmlAttributes = new { @class = "form-control", placeholder = "Username or Email", style = "width:85%; margin-left:10px;" } })
+                @*<i class="fas fa-user" id="user-icon" ></i>*@
+                <br />
+                @Html.ValidationMessageFor(model => model.UserEmail, "", new { @class = "text-danger", @id="error-email"})
+            </div>
+        </div>
+
+        <div id="userpassword" class="form-group">
+            <div style="text-align:center">
+                @Html.PasswordFor(model => model.UserPassword, new { @class = "form-control", placeholder = "Password", style = "width:85%; margin-left:10px;" })
+                @*<i class="fas fa-lock" id="password-icon"></i>*@
+                <br />
+                @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger", @id = "error-password" })
+            </div>
+        </div>
+
+        <div id="error-message" class="text-danger" style="margin-top:10px;">
+            @ViewBag.LoginError
+        </div>
+
+        <div class="form-group">
+            <div style="align-content: center; text-align: center; ">
+                <input type="submit" value="Log In" class="btn btn-primary" id="login-btn" />
+            </div>
+        </div>
+
+    </div>
+
+}
+
+
+@*popup signup window*@
+
+<a href="#" id="signup-link" data-toggle="modal" data-target=".addusermodal">Sign Up</a>
+
+<div class="modal fade addusermodal" id="MyPopup" style="text-align:left;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label style="margin-left:0;">Register as User</label>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("AddUser", "Login", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div id="avatar-block">
+                        <label>Profile Picture Preview</label><br />
+                        <div id="avatar-image">
+                            <img id="outImg" alt="Avatar" src="~/Images/avatar.png" style="border-radius: 50%;">
+                        </div>
+                        <input id="inImg" name="UserImageFile" type="file" accept="image/*" onchange="loadFile(event)" />
+                        <input type="hidden" id="imghidden" name="imghidden" value="" />
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0px;">
+                        <label class="form-label">UserName:</label>
+                        @Html.TextBoxFor(m => m.UserName, new { @id = "UName", @class = "form-control", @placeholder = "User Name", style = "margin-left: 100px;" })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger", @id = "UName-error" })
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0px;">
+                        <label class="form-label">Email Address:</label>
+                        @Html.TextBoxFor(m => m.UserEmail, new { @id = "UEmail", @class = "form-control", @placeholder = "Email Address", style = "margin-left: 72px;" })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.UserEmail, "", new { @class = "text-danger", @id = "UEmail-error" })
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0px;">
+                        <lable class="form-label">Password:</lable>
+                        @Html.PasswordFor(m => m.UserPassword, new { @id = "UPassword", @class = "form-control", @placeholder = "Password", style = "margin-left: 103px;" })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.UserPassword, "", new { @class = "text-danger", @id = "UPassword-error" })
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0px;">
+                        <lable class="form-label">Confirm Password:</lable>
+                        @Html.PasswordFor(m => m.UserConfirmPassword, new { @id = "CfUPassword", @class = "form-control", @placeholder = "Password", style = "margin-left: 45px;" })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.UserConfirmPassword, "", new { @class = "text-danger", @id = "CfUPassword-error" })
+                    </div>
+
+                    <div class="text-danger" style="margin-left:180px;">
+                        @ViewBag.UniqueError
+                    </div>
+
+                    <hr />
+
+                    <div class="form-group" style="margin-bottom: 0px;">
+                        <input type="submit" value="Sign Up" class="btn btn-primary" id="signup-btn" style="margin-left: 470px;">
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $("#login-btn").click(function () {
+        $("#UserConfirmPassword").val($("#UserPassword").val());
+    })
+</script>
+
+
+
+<script>
+    var loadFile = function (event) {
+        var outImg = document.getElementById('outImg');
+        outImg.src = URL.createObjectURL(event.target.files[0]);
+        outImg.onload = function () {
+            URL.revokeObjectURL(outImg.src)
+        }
+    };
+
+</script>
+
+<script>
+    $("#outImg").on('load', function () {
+        $("#imghidden").val("imgadded");
+    });
+</script>
+
+@if (ViewBag.ModalMessage != null)
+{
+    <script>
+        window.onload = function () {
+            $("#MyPopup").modal("show");
+        };
+    </script>
+}
+
+
+
+
+
+

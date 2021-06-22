@@ -1,0 +1,17 @@
+﻿
+@model JooleApp.ViewModel.ProductFilter
+
+
+<div id="abc">
+    @{
+        foreach (var item in Model.products)
+        {
+            <div class="product-container">
+                <img class="product_img" style="max-width:150px;" alt="product" src="~/Images/@(item.ProductImage.Trim()) " /><br />
+                <label>@item.tblManufacturer.ManufacturerName</label><br />
+                <label>@item.Series </label><br />
+                <label>@item.Model</label><br />
+            </div>
+        }
+    }
+</div>

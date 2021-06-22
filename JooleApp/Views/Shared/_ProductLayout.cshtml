@@ -1,0 +1,50 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="header">
+        <img alt="Joole" src="~/Images/jooleLogo.png" class="header_logo" />
+
+        @{ Html.RenderAction("RenderSearchBar", "Search"); }
+        @*<form class="header_search">
+            <select class="header_dropdown">
+                <option selected disabled>Category</option>
+
+                <option>Mechanical</option>
+                <option>Electrical</option>
+                <option>Stationary</option>
+                <option>Furniture</option>
+            </select>
+            <input type="text" placeholder="Search..." class="headerSearch_input" />
+            <button class="header_serachIcon">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+        </form>*@
+        @{
+            if (Session["userimage"] != null)
+            {
+                <img src="@(Session["userimage"].ToString().Split('~')[1])" alt="Avatar" class="header_avatar">
+            }
+            else
+            {
+                <img src="~/Images/avatar.png" alt="Avatar" class="header_avatar">
+            }
+        }
+
+    </div>
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

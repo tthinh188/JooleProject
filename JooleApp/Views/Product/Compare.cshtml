@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "Compare";
+    Layout = "~/Views/Shared/_ProductLayout.cshtml";
+}
+<div class="container">
+    <table class="table table-bordered table-responsive">
+        <tr>
+            <td class="product_imgContainer"></td>
+            @{
+                foreach (var product in ViewBag.productDetails)
+                {
+                    <td class="product_imgContainer"><img alt="product" src="~/Images/@product["PRODUCT_DESCRIPTION"]["Image"]" class="product_img" /></td>
+                }
+            }
+        </tr>
+        <tr>
+            <th colspan="4" class="compare_description">DESCRIPTION</th>
+        </tr>
+        <tr>
+            <th class="compare_description">Manufacture</th>
+            @{
+                foreach (var product in ViewBag.productDetails)
+                {
+                    <td>@product["PRODUCT_DESCRIPTION"]["Manufacture"]</td>
+                }
+            }
+        </tr>
+        <tr>
+            <th class="compare_description">Series</th>
+            @{
+                foreach (var product in ViewBag.productDetails)
+                {
+                    <td>@product["PRODUCT_DESCRIPTION"]["Series"]</td>
+                }
+            }
+        </tr>
+        <tr>
+            <th class="compare_description">Model</th>
+            @{
+                foreach (var product in ViewBag.productDetails)
+                {
+                    <td>@product["PRODUCT_DESCRIPTION"]["Model"]</td>
+                }
+            }
+        </tr>
+        <tr>
+            <th class="compare_description">Model Year</th>
+            @{
+                foreach (var product in ViewBag.productDetails)
+                {
+                    <td>@product["PRODUCT_DESCRIPTION"]["Model Year"]</td>
+                }
+            }
+        </tr>
+        <tr>
+            <th colspan="4" class="compare_description">TYPE</th>
+        </tr>
+
+        @{
+            foreach (var type in @ViewBag.productDetails[0]["TYPE"].Keys)
+            {
+                <tr>
+                    <th class="compare_description">@type</th>
+                    @foreach (var item in ViewBag.productDetails)
+                    {
+                        <td>
+                            @item["TYPE"][type]
+                        </td>
+                    }
+                </tr>
+            }
+        }
+
+        <tr>
+            <th colspan="4" class="compare_description">TECHNICAL SPECIFICATIONS</th>
+        </tr>
+        @{
+            foreach (var type in @ViewBag.productDetails[0]["TECHNICAL SPECIFICATIONS"].Keys)
+            {
+                <tr>
+                    <th class="compare_description">@type</th>
+                    @foreach (var item in ViewBag.productDetails)
+                    {
+                        <td>
+                            @item["TECHNICAL SPECIFICATIONS"][type]
+                        </td>
+                    }
+                </tr>
+            }
+        }
+    </table>
+</div>

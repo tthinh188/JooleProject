@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7f195d66fffe4355a3b54c0b3a57b857" Name="Diagram1">
+        <EntityTypeShape EntityType="JooleDatabaseModel.C__RefactorLog" Width="1.5" PointX="0.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="JooleDatabaseModel.tblCategory" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="JooleDatabaseModel.tblManufacturer" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="JooleDatabaseModel.tblProduct" Width="1.5" PointX="5.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="JooleDatabaseModel.tblProperty" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="JooleDatabaseModel.tblPropertyValue" Width="1.5" PointX="7.5" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="JooleDatabaseModel.tblSubCategory" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="JooleDatabaseModel.tblUser" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="JooleDatabaseModel.tblTechSpecFilter" Width="1.5" PointX="8.25" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="JooleDatabaseModel.tblTypeFilter" Width="1.5" PointX="8.25" PointY="1.875" IsExpanded="true" />
+        <AssociationConnector Association="JooleDatabaseModel.FK_dbo_tblSubCategory_dbo_tblCategory_CategoryID" ManuallyRouted="false" />
+        <AssociationConnector Association="JooleDatabaseModel.FK_dbo_tblManufacturer_tblManufacturer_ManufacturerID" ManuallyRouted="false" />
+        <AssociationConnector Association="JooleDatabaseModel.FK_dbo_tblManufacturer_User_UserID" ManuallyRouted="false" />
+        <AssociationConnector Association="JooleDatabaseModel.FK_dbo_tblManufacturer_tblSubCategory_SubCategoryID" ManuallyRouted="false" />
+        <AssociationConnector Association="JooleDatabaseModel.FK_dbo_tblPropertyValue_dbo_tblProduct_ProductID" ManuallyRouted="false" />
+        <AssociationConnector Association="JooleDatabaseModel.FK_dbo_tblPropertyValue_dbo_tblProperty_PropertyID" ManuallyRouted="false" />
+        <AssociationConnector Association="JooleDatabaseModel.FK_dbo_tblTechSpecFilter_dbo_tblProperty_PropertyID" ManuallyRouted="false" />
+        <AssociationConnector Association="JooleDatabaseModel.FK_dbo_tblTypeFilter_dbo_tblProperty_PropertyID" ManuallyRouted="false" />
+        <AssociationConnector Association="JooleDatabaseModel.FK_dbo_tblTechSpecFilter_dbo_tblSubCategory_SubCategoryID" ManuallyRouted="false" />
+        <AssociationConnector Association="JooleDatabaseModel.FK_dbo_tblTypeFilter_dbo_tblSubCategory_SubCategoryID" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

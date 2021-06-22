@@ -1,0 +1,175 @@
+﻿
+.filterSection {
+    background-color: #F5F5F5;
+    border-top: 2px solid lightgrey;
+    border-right: 2px solid lightgrey;
+    border-bottom: 2px solid lightgrey;
+}
+
+
+
+.bottomBorder {
+    border-bottom: 2px solid lightgrey;
+}
+
+.productSection {
+    border-right: 2px solid lightgrey;
+    border-bottom: 2px solid lightgrey;
+    text-align: center;
+}
+
+.projectSection {
+    text-align: center;
+    border-bottom: 2px solid lightgrey;
+}
+
+.searchSection {
+    overflow: auto;
+    text-align: center;
+}
+
+#searchLabel {
+    margin-right: 15px;
+}
+
+#saveButton {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 15px;
+    margin-right: 7px;
+    background-color: #00bfff;
+    border: none;
+    color: white;
+    height: 30px;
+    width: 70px;
+}
+
+    #saveButton:hover {
+        background-color: white;
+        border: 1px solid grey;
+        color: black;
+    }
+
+#clearButton {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 7px;
+    background-color: #00bfff;
+    border: none;
+    color: white;
+    height: 30px;
+    width: 70px;
+}
+
+    #clearButton:hover {
+        background-color: white;
+        border: 1px solid grey;
+        color: black;
+    }
+
+
+
+.dropdownButton {
+    height: 100%;
+    width: 100%;
+    border: none;
+    background-color: #F5F5F5;
+}
+
+.modelYearSection {
+    text-align: center;
+}
+
+#modelYearLabel {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.modelYearField {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 15px;
+    margin-left: 15px;
+    width: 60px;
+    border-color: lightgrey;
+}
+
+
+.product-container {
+    display: inline-block;
+    margin: 10px 10px;
+    text-align: center;
+    border: 1px solid lightgrey;
+}
+
+#compare-btn:disabled {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+}
+
+.filter_option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.tech_propertyLabel {
+    padding: 10px;
+    font-size: 1.5rem;
+}
+
+.tech_property {
+    margin-left: 20px;
+}
+
+
+.sliderDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slider {
+    flex: 1;
+}
+
+.sliderValue {
+    border: 0;
+    width: 40px;
+    outline: 0;
+    background-color: transparent;
+}
+
+.detailsButton {
+    background-color: #00bfff;
+    border: none;
+    color:white;
+    margin-bottom: 5px;
+}
+
+@media screen and (max-width: 784px){
+    .product-container {
+        width: 80%;
+        font-size: 2rem;
+    }
+    #displayProducts {
+        text-align: center;
+        width: 100%;
+    }
+    .col-xs-7 {
+        text-align:center;
+    }
+
+    #allElements{
+        text-align:center;
+        display:block;
+    }
+
+    .filterSection {
+        text-align: center;
+        width: 100% !important;
+    }
+
+}

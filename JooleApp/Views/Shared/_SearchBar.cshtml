@@ -1,0 +1,107 @@
+﻿@model JooleApp.ViewModel.SearchViewModel
+@*
+    <form class="header_search">
+        <select class="header_dropdown">
+            <option selected disabled>Category</option>
+
+            <option>Mechanical</option>
+            <option>Electrical</option>
+            <option>Stationary</option>
+            <option>Furniture</option>
+        </select>
+        <input type="text" placeholder="Search..." class="headerSearch_input" />
+        <button class="header_serachIcon">
+            <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+    </form>*@
+@Scripts.Render("~/bundles/jquery")
+@using (Html.BeginForm("SearchResult", "Search", FormMethod.Post, new { @class = "header_search" }))
+{
+    <select id="mainCategoryDropdown" name="mainCategoryDropdown" class="header_dropdown" onchange="clickFunc(this)" >
+        <option selected disabled>Category</option>
+        @{
+            foreach (var category in Model.maincategories)
+            {
+                Console.WriteLine("CATEGORY NAME:-" + @category.CategoryName);
+                <option data-listval="@category.CategoryName.Trim()" value="@category.CategoryID">@category.CategoryName</option>
+            }
+        }
+    </select>
+
+
+            foreach (var category in Model.maincategories)
+            {
+                //Console.WriteLine("CATEGORY NAME:-" + @category.CategoryName);        
+                <datalist id="@category.CategoryName.Trim()">
+                    @{ foreach (var subcategory in Model.subcategories[@category])
+                        {
+                            <option catID="@subcategory.CategoryID" data-value="@subcategory.SubCategoryID">@subcategory.CategoryName</option>
+                            }
+                        }
+                </datalist>
+
+            }       
+
+
+    <datalist id="thing1">
+        <option>THING1</option>
+        <option>THING2</option>
+        <option>THING12</option>
+    </datalist>
+
+
+
+    <input type="text" id="subCategoryDropdown" name="subCategoryDropdown" class="headerSearch_input">
+    <datalist id="subCategoryDropdownlist" name="subCategoryDropdownlist">
+        @{
+            foreach (var category in Model.maincategories)
+            {
+                foreach (var subcategory in Model.subcategories[@category])
+                {
+                    <option catID="@subcategory.CategoryID" value="@subcategory.SubCategoryID">@subcategory.CategoryName</option>
+                }
+
+                @*@Html.DropDownList("Direction", new SelectList(Model.subcategories[@category], "SubCategoryID", "CategoryName"))*@
+
+            }
+        }
+    </datalist>
+
+    <input type="submit" name="Submit" value="Submit" />
+
+
+}
+
+<script>
+
+    $(document).ready(function () {
+
+        //$("#mainCategoryDropdown").children('option:gt(0)').hide();
+        $("#subCategoryDropdownlist").children("option").hide();
+
+        $("#mainCategoryDropdown").change(function () {
+
+            var CategoryIDChosen = $(this).val();
+            var CategoryNameChosen = $(this).text();
+            $("#subCategoryDropdownlist").children("option:selected").prop("selected", false);
+            console.log("CATEGORY ID:-" + CategoryIDChosen);
+            var catType = $("#mainCategoryDropdown").children("option:selected").text().trim();
+            //console.log("CATEGORY NAME:-" + $(this).text());
+            //$("#subCategoryDropdown").remove();
+            //$("#subCategoryDropdown").prop("list", thing2);
+            
+            //var catType = $(this).attr("data-listval");
+            //alert(catType);
+            $("#subCategoryDropdown").attr("list", catType);
+            $("#subCategoryDropdown").val("");
+            $("#subCategoryDropdownlist").children("option").hide();
+            $("[catID =" + $(this).val() + "]").show();
+
+        })
+
+
+    })
+
+
+
+</script>

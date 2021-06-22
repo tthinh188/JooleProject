@@ -1,0 +1,88 @@
+﻿@model JooleApp.ViewModel.ProductViewModel
+
+{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_ProductLayout.cshtml";
+}
+
+
+<body style="padding-top: 100px;">
+    <h2 style="color:#006699;">Product Summary</h2>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+    <table class="table table-bordered">
+        <tr>
+            <td class="field-label col-xs-3 active">
+                <label>ProductID:</label>
+            </td>
+            <td class="col-md-9">
+                @Model.Products[0].ProductID
+            </td>
+        </tr>
+        <tr>
+            <td class="field-label col-xs-3 active">
+                <label>ProductName:</label>
+            </td>
+            <td class="col-md-9">
+                @Model.Products[0].ProductName
+            </td>
+        </tr>
+        <tr>
+            <td class="field-label col-xs-3 active">
+                <label>Manufacturer:</label>
+            </td>
+            <td class="col-md-9">
+                @Model.Products[0].Manufacturer
+            </td>
+        </tr>
+        <tr>
+            <td class="field-label col-xs-3 active">
+                <label>Series:</label>
+            </td>
+            <td class="col-md-9">
+                @Model.Products[0].Series
+            </td>
+        </tr>
+        <tr>
+            <td class="field-label col-xs-3 active">
+                <label>SeriesInfo:</label>
+            </td>
+            <td class="col-md-9">
+                @Model.Products[0].SeriesInfo
+            </td>
+        </tr>
+        <tr>
+            <td class="field-label col-xs-3 active">
+                <label>Model:</label>
+            </td>
+            <td class="col-md-9">
+                @Model.Products[0].Model
+            </td>
+        </tr>
+        <tr>
+            <td class="field-label col-xs-3 active">
+                <label>ModelYear:</label>
+            </td>
+            <td class="col-md-9">
+                @Model.Products[0].ModelYear
+            </td>
+        </tr>
+    </table>
+    <h2 style="color:#006699;">Spec Info</h2>
+    <table class="table table-bordered">
+        @for (int i = 0; i < Model.Item1.Count; i++)
+        {
+            <tr>
+                <td class="field-label col-xs-3 active">
+                    <label>@Model.Item1[i].PropertyName</label>
+                </td>
+                <td class="col-md-9">
+                    @Model.Item1[i].iValue
+                </td>
+            </tr>
+        }
+
+    </table>
+    <a href="javascript:void(0);" onclick="history.go(-1);" align="center">Back to Details</a>
+</body>
+

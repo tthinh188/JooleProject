@@ -1,0 +1,23 @@
+﻿@model JooleApp.ViewModel.SearchViewModel
+
+@{
+    ViewBag.Title = "SearchHomePage";
+    Layout = "~/Views/Shared/_LoginSearchLayout.cshtml";
+}
+
+
+@{ Html.RenderAction("RenderSearchBar", "Search"); }
+
+
+<script>
+
+    $(document).ready(function () {
+        //$("#mainCategoryDropdown").children('option:gt(0)').hide();
+
+        $(".header_search").css("margin-left", "30%");
+        $(".header_search").css("margin-right", "30%");
+
+    })
+
+
+</script>

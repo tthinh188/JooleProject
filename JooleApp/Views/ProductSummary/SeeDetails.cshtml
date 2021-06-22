@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "SeeDetails";
+    Layout = "~/Views/Shared/_ProductLayout.cshtml";
+}
+
+<head>
+    <style>
+        table, th, td {
+            border-top: 1px solid lightgray;
+            border-bottom: 1px solid lightgray;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 5px;
+            text-align: left;
+        }
+
+        .detail_header {
+            color: cornflowerblue;
+            border-bottom: 1px solid lightgray;
+        }
+
+        .detail_tables {
+            width: 100%;
+            display: flex;
+        }
+
+        .details_tablesLeft {
+            flex: 0.5;
+        }
+
+        .details_tablesRight {
+            flex: 0.5;
+        }
+
+        .detail_table {
+            margin: 10px;
+            width: 90%;
+        }
+
+        .table_title {
+            color: gray;
+        }
+
+        .detail_label {
+            background-color: rgba(128,128,128, 0.2);
+            font-weight: bold;
+            width: 50%;
+        }
+
+        .detail_footer {
+            color: cornflowerblue;
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<div class="container">
+
+    <h1 class="detail_header">Product Summary</h1>
+    <div class="detail_tables">
+        <div class="details_tablesLeft">
+
+            <table class="detail_table">
+                <tr>
+                    <td colspan="2"><h4 class="table_title">DESCRIPTION</h4></td>
+                </tr>
+                <tr>
+                    <td class="detail_label">Manufacturer</td>
+                    <td>@ViewBag.productDetails["PRODUCT_DESCRIPTION"]["Manufacture"]</td>
+                </tr>
+                <tr>
+                    <td class="detail_label">Series</td>
+                    <td>@ViewBag.productDetails["PRODUCT_DESCRIPTION"]["Series"]</td>
+                </tr>
+                <tr>
+                    <td class="detail_label">Model</td>
+                    <td>@ViewBag.productDetails["PRODUCT_DESCRIPTION"]["Model"]</td>
+                </tr>
+            </table>
+
+            <table class="detail_table">
+                <tr>
+                    <td colspan="2"><h4 class="table_title">TYPE</h4></td>
+                </tr>
+                @{foreach (var type in @ViewBag.productDetails["TYPE"].Keys)
+                    {
+                        <tr>
+                            <td class="detail_label">@type</td>
+                            <td>@ViewBag.productDetails["TYPE"][type]</td>
+                        </tr>
+                    }
+                }
+                <tr>
+                    <td class="detail_label">Model Year</td>
+                    <td>@ViewBag.productDetails["PRODUCT_DESCRIPTION"]["Model Year"]</td>
+                </tr>
+            </table>
+
+        </div>
+
+        <div class="details_tablesRight">
+
+            <table class="detail_table">
+                <tr>
+                    <td colspan="2"><h4 class="table_title">TECHNICAL SPECIFICATIONS</h4></td>
+                </tr>
+                @{foreach (var type in @ViewBag.productDetails["TECHNICAL SPECIFICATIONS"].Keys)
+                    {
+                        <tr>
+                            <td class="detail_label">@type</td>
+                            <td>@ViewBag.productDetails["TECHNICAL SPECIFICATIONS"][type]</td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+
+    </div>
+
+    <h1 class="detail_footer">Product Details</h1>
+</div>

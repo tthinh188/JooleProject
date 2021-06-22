@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "~/Views/Shared/_ProductLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/CSS/SearchPage.css")
+    @Scripts.Render("~/bundles/modernizr")
+    <title></title>
+</head>
+<body>
+    <div class="searchContainer">
+
+        @{
+            foreach (var product in ViewBag.productDetails)
+            {
+                <div class="resultBlock">
+                    <td class="product_imgContainer"><img alt="product" src="~/Images/@product["PRODUCT_DESCRIPTION"]["Image"]" class="product_img" width="400" height="400" /></td>
+                    <span class="productTag">@product["PRODUCT_DESCRIPTION"]["Manufacture"]</span><br>
+                    <span class="productTag">@product["PRODUCT_DESCRIPTION"]["Series"]</span><br>
+                    <span class="productTag">@product["PRODUCT_DESCRIPTION"]["Model"]</span><br>
+                </div>
+
+                <div></div>
+            }
+        }
+
+
+    </div>
+</body>
+</html>
